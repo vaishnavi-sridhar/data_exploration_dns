@@ -4,20 +4,20 @@ from sklearn import preprocessing
 import numpy as np
 
 
-def plot_graph1():
-    content_as_dict = json.load(open('Graph1.txt', 'r'))
+def plot_graph1(inputfile,label_plot,x_axis, y_axis, title_plot):
+    content_as_dict = json.load(open(inputfile, 'r'))
     actual_values = list(content_as_dict.values())
     print(np.array(actual_values))
 
     val = preprocessing.normalize([np.array(list(content_as_dict.values()))], norm='max')
     print(list(val[0]))
     fig, ax = plt.subplots()
-    bar_plot = plt.bar(content_as_dict.keys(), list(val[0]), color='b', label='DNS Record count')
+    bar_plot = plt.bar(content_as_dict.keys(), list(val[0]), color='b', label=label_plot)
 
     bar_plot = autolabel(bar_plot,ax, actual_values)
-    plt.xlabel('Times of day', fontsize=12)
-    plt.ylabel('No. of DNS records (normalized)', fontsize=12)
-    plt.title('DNS record count (vs) Time of the day', fontsize=15)
+    plt.xlabel(x_axis, fontsize=12)
+    plt.ylabel(y_axis, fontsize=12)
+    plt.title(title_plot, fontsize=15)
     plt.legend()
     plt.show()
 
@@ -31,4 +31,6 @@ def autolabel(rects,ax,values):
     return rects
 
 
-plot_graph1()
+
+#plot_graph1('Graph1.txt','DNS Record count','Times of day','No. of DNS records (normalized)','DNS record count (vs) Time of the day')
+plot_graph1('Graph2.txt','Record Count','Query Type','Query Type Count','Query Type (vs) Count')

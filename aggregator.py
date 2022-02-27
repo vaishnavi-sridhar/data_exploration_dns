@@ -51,7 +51,16 @@ def aggregate_data(input_file):
     print(df.groupby(['id.orig_h', 'id.orig_p', 'id.resp_h', 'id.resp_p', 'trans_id']).size().reset_index(
         name='count').sort_values(['count'], ascending=False).head(100))
     # print(df.groupby(['id.orig_h','id.orig_p','id.resp_h','id.resp_p','trans_id']).size().reset_index(name='counts'))
-
+    #return sub_df
+    qtype_dictionary = generate_qtype_dict(sub_df)
+    append_to_file("Graph2.txt", qtype_dictionary)
+def generate_qtype_dict(sub_df):
+    final_sub_df = sub_df[['qtype_name','count']]
+    qtype_dict = {}
+    for item in sub_df.to_dict('split')['data']:
+        if item[0] != "-":
+            qtype_dict[item[0]]=item[1]
+    return qtype_dict
 
 def extract_tod(file_name):
     hour_limit = file_name.split(".")[1]
