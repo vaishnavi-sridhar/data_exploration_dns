@@ -39,18 +39,60 @@ def aggregate_data(input_file):
     append_to_file("Graph1.txt", content_as_dict)
 
     print("--------------------------")
-    sub_df = df.groupby(['qtype_name']).size().reset_index(name='count').sort_values(['count'], ascending=False).head(100)
+    sub_df = df.groupby(['qtype_name']).size().reset_index(name='count').sort_values(['count'], ascending=False).head(
+        100)
     print(type(sub_df))
-    print("--------------------------")
-    print(df.groupby(['query']).size().reset_index(name='count').sort_values(['count'], ascending=False).head(100))
-    print("--------------------------")
-    print(df.groupby(['query', 'qtype_name']).size().reset_index(name='count').sort_values(['count'],
-                                                                                           ascending=False).head(
-        100))
-    print("--------------------------")
-    print(df.groupby(['id.orig_h', 'id.orig_p', 'id.resp_h', 'id.resp_p', 'trans_id']).size().reset_index(
-        name='count').sort_values(['count'], ascending=False).head(100))
+    qtype_dict = {}
+    for item in sub_df.to_dict('split')['data']:
+        qtype_dict[item[0]] = item[1]
+    print(qtype_dict)
+
+    generate_data_graph4(df, input_file)
+
+    # print(df.groupby(['query', 'qtype_name']).size().reset_index(name='count').sort_values(['count'],ascending=False).head(5))
+    # print("--------------------------")
+    #
+    # print(df.groupby(['id.orig_h', 'id.orig_p', 'id.resp_h', 'id.resp_p', 'trans_id']).size().reset_index(
+    #     name='count').sort_values(['count'], ascending=False).head(100))
     # print(df.groupby(['id.orig_h','id.orig_p','id.resp_h','id.resp_p','trans_id']).size().reset_index(name='counts'))
+
+
+def generate_data_graph4(df, input_file):
+    print("--------------------------")
+    sub_df = df.groupby(['query']).size().reset_index(name='count').sort_values(['count'], ascending=False).head(100)
+    print("--------------------------")
+    time_of_day = extract_tod(input_file.split("\\")[-1])
+    content_as_dict = read_val("Graph4-old.txt")
+    q_dict = {}
+    for item in sub_df.to_dict('split')['data']:
+        if item[0] != "-" and item[0] != "(empty)":
+            q_dict[item[0]] = item[1]
+    print(q_dict)
+
+    if not content_as_dict[time_of_day]:
+        content_as_dict[time_of_day] = q_dict
+    else:
+        for item in q_dict.items():
+            key = item[0]
+            val = item[1]
+            orig_inner_dict = content_as_dict[time_of_day]
+            orig_domain_count = 0
+            if not key in orig_inner_dict.keys():
+                orig_inner_dict[key] = val
+            else:
+                orig_domain_count = orig_inner_dict[key]
+                orig_inner_dict[key] = orig_domain_count + val
+        content_as_dict[time_of_day] = orig_inner_dict
+    print(content_as_dict)
+    append_to_file("Graph4.txt",content_as_dict)
+
+
+# if content_as_dict:
+#     if key in content_as_dict.values():
+#         orig_val = content_as_dict[key]
+# value = orig_val + len(df.index)
+# content_as_dict[key] = value
+# append_to_file("Graph1.txt", content_as_dict)
 
 
 def extract_tod(file_name):
@@ -73,9 +115,6 @@ def read_val(name):
         return json.load(open(name))
     except:
         return {}
-
-
-
 
 
 if __name__ == '__main__':
