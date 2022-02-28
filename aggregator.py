@@ -33,6 +33,9 @@ def aggregate_data(input_file):
     generate_graph2_data(df)
 
     generate_graph4_data(df, input_file)
+    generate_graph3_data(df, input_file)
+
+
 
     # print(df.groupby(['query', 'qtype_name']).size().reset_index(name='count').sort_values(['count'],ascending=False).head(5))
 
@@ -66,6 +69,40 @@ def generate_graph1_data(df, input_file):
     content_as_dict = OrderedDict(sorted(content_as_dict.items()))
     append_to_file("Graph1.txt", content_as_dict)
 
+def generate_graph3_data(df, input_file):
+    print("--------------------------")
+    sub_df = df.groupby(['qtype_name']).size().reset_index(name='count').sort_values(['count'], ascending=False).head(5)
+    print("--------------------------")
+    time_of_day = extract_tod(input_file.split("\\")[-1])
+    content_as_dict = read_content_from_file("Graph3.txt")
+    q_dict = {}
+    for item in sub_df.to_dict('split')['data']:
+        if item[0] != "-" and item[0] != "(empty)":
+            q_dict[item[0]] = item[1]
+    print(q_dict)
+    for i in ['A','AAAA','PTR','CNAME', 'NS']:
+        if i not in q_dict.keys():
+            q_dict[i] = 0
+    for key in q_dict.keys():
+        if key not in ['A','AAAA','PTR','CNAME', 'NS']: 
+            q_dict.pop(key)
+    if time_of_day not in content_as_dict.keys():
+        content_as_dict[time_of_day] = q_dict
+    else:
+        for item in q_dict.items():
+            key = item[0]
+            val = item[1]
+            orig_inner_dict = content_as_dict[time_of_day]
+            orig_domain_count = 0
+            if key not in orig_inner_dict.keys():
+                orig_inner_dict[key] = val
+            else:
+                orig_domain_count = orig_inner_dict[key]
+                orig_inner_dict[key] = orig_domain_count + val
+        content_as_dict[time_of_day] = orig_inner_dict
+    content_as_dict = OrderedDict(sorted(content_as_dict.items()))
+    print(content_as_dict)
+    append_to_file("Graph3.txt", content_as_dict)
 
 def generate_graph4_data(df, input_file):
     print("--------------------------")
