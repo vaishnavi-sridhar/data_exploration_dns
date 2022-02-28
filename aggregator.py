@@ -29,7 +29,7 @@ def aggregate_data(input_file):
     df.columns = header_names
     print("# of DNS records:", len(df.index))
     key = extract_tod(input_file.split("\\")[-1])
-    content_as_dict = read_val("Graph1.txt")
+    content_as_dict = read_content_from_file("Graph1.txt")
     orig_val = 0
     if content_as_dict:
         if key in content_as_dict:
@@ -62,7 +62,7 @@ def generate_data_graph4(df, input_file):
     sub_df = df.groupby(['query']).size().reset_index(name='count').sort_values(['count'], ascending=False).head(100)
     print("--------------------------")
     time_of_day = extract_tod(input_file.split("\\")[-1])
-    content_as_dict = read_val("Graph4-old.txt")
+    content_as_dict = read_content_from_file("Graph4-old.txt")
     q_dict = {}
     for item in sub_df.to_dict('split')['data']:
         if item[0] != "-" and item[0] != "(empty)":
@@ -94,7 +94,6 @@ def generate_data_graph4(df, input_file):
 # content_as_dict[key] = value
 # append_to_file("Graph1.txt", content_as_dict)
 
-
 def extract_tod(file_name):
     hour_limit = file_name.split(".")[1]
     return "Hours " + hour_limit.split(":")[0] + "-" + hour_limit.split("-")[1][0:2]
@@ -110,12 +109,11 @@ def replace_row(old_text, new_text):
     f.close()
 
 
-def read_val(name):
+def read_content_from_file(name):
     try:
         return json.load(open(name))
     except:
         return {}
-
 
 if __name__ == '__main__':
     main()
