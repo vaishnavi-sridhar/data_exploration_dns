@@ -14,6 +14,7 @@ def plot_graph(inputfile, label_plot, x_axis, y_axis, title_plot):
     fig, ax = plt.subplots()
     bar_plot = plt.bar(content_as_dict.keys(), list(val[0]), color='b', label=label_plot)
     bar_plot = autolabel(bar_plot,ax, actual_values)
+    fig.autofmt_xdate()
     plt.xlabel(x_axis, fontsize=12)
     plt.ylabel(y_axis, fontsize=12)
     plt.title(title_plot, fontsize=15)
@@ -50,7 +51,7 @@ def plot_graph4():
 
     ax.bar_label(rects1, padding=3)
     ax.bar_label(rects2, padding=3)
-
+    fig.autofmt_xdate()
     fig.tight_layout()
 
     plt.show()
@@ -65,6 +66,6 @@ def autolabel(rects,ax,values):
     return rects
 
 
-plot_graph('Graph1.txt', 'DNS Record count', 'Times of day', 'No. of DNS records (normalized)', 'DNS record count (vs) Time of the day')
+plot_graph('Graph1-old.txt', 'DNS Record count', 'Times of day', 'No. of DNS records (normalized)', 'DNS record count (vs) Time of the day')
 plot_graph('Graph2.txt', 'Record Count', 'Query Type', 'Query Type Count', 'Query Type (vs) Count')
 plot_graph4()
