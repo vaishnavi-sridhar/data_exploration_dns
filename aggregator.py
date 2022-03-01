@@ -9,16 +9,16 @@ def main():
     message = ("Data exploration - analyzing DNS files and aggregating data to derive insights through graphs.")
     parser = argparse.ArgumentParser(message,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--input_file", type=str, required=True,
+    parser.add_argument("--input_file", type=str, required=False,
                         help="The dns log file(s) to use.",
-                        default="/home/vasr2545/uncompressed_dns/2021-08-01_dns.01:00:00-02:00:00.log")
+                        default="/home/vasr2545/uncompressed_dns/2021-08-01_dns.00:00:00-01:00:00.log")
     FLAGS = parser.parse_args()
-    # df = pd.read_csv(FLAGS.input_file,delimiter="\t", skiprows=8, header=None)
     aggregate_data(FLAGS.input_file)
 
 
 def aggregate_data(input_file):
-    df = pd.read_csv(input_file, delim_whitespace=True, skiprows=8, header=None)
+    #df = pd.read_csv(input_file, delim_whitespace=True, skiprows=8, header=None)#uncomment this setting on local
+    df = pd.read_csv(input_file,delimiter="\t", skiprows=8, header=None) #uncomment this setting on server
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
     pd.set_option('display.width', None)
@@ -28,12 +28,12 @@ def aggregate_data(input_file):
                     "qclass", "qclass_name", "qtype", "qtype_name", "rcode", "rcode_name", "AA", "TC", "RD", "RA", "Z",
                     "answers", "TTLs", "rejected"]
     df.columns = header_names
-    generate_graph1_data(df, input_file)
+    #generate_graph1_data(df, input_file)
 
     generate_graph2_data(df)
 
-    generate_graph4_data(df, input_file)
-    generate_graph3_data(df, input_file)
+    #generate_graph4_data(df, input_file)
+    #generate_graph3_data(df, input_file)
 
 
 
