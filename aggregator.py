@@ -17,8 +17,8 @@ def main():
 
 
 def aggregate_data(input_file):
-    #df = pd.read_csv(input_file, delim_whitespace=True, skiprows=8, header=None)#uncomment this setting on local
-    df = pd.read_csv(input_file,delimiter="\t", skiprows=8, header=None) #uncomment this setting on server
+    df = pd.read_csv(input_file, delim_whitespace=True, skiprows=8, header=None)#uncomment this setting on local
+    #df = pd.read_csv(input_file,delimiter="\t", skiprows=8, header=None) #uncomment this setting on server
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
     pd.set_option('display.width', None)
@@ -28,14 +28,10 @@ def aggregate_data(input_file):
                     "qclass", "qclass_name", "qtype", "qtype_name", "rcode", "rcode_name", "AA", "TC", "RD", "RA", "Z",
                     "answers", "TTLs", "rejected"]
     df.columns = header_names
-    #generate_graph1_data(df, input_file)
-
+    generate_graph1_data(df, input_file)
     generate_graph2_data(df)
-
-    #generate_graph4_data(df, input_file)
-    #generate_graph3_data(df, input_file)
-
-
+    generate_graph4_data(df, input_file)
+    generate_graph3_data(df, input_file)
 
     # print(df.groupby(['query', 'qtype_name']).size().reset_index(name='count').sort_values(['count'],ascending=False).head(5))
 
@@ -72,7 +68,8 @@ def generate_graph1_data(df, input_file):
 
 def generate_graph3_data(df, input_file):
     print("--------------------------")
-    sub_df = df.groupby(['qtype_name']).size().reset_index(name='count').sort_values(['count'], ascending=False).head(5)
+    lst = ['A', 'AAAA', 'NS', 'PTR', 'CNAME']
+    sub_df = df.groupby(['qtype_name']).size().reset_index(name='count').sort_values(['count'], ascending=False).query('qtype_name in @lst')
     print("--------------------------")
     time_of_day = extract_tod(input_file.split("\\")[-1])
     content_as_dict = read_content_from_file("Graph3.txt")

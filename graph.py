@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn import preprocessing
 import numpy as np
 import operator
+from collections import OrderedDict
 
 
 def plot_graph1(inputfile, label_plot, x_axis, y_axis, title_plot):
@@ -50,6 +51,7 @@ def plot_graph4():
     content_as_dict = json.load(open('Graph4.txt', 'r'))
     labels = list(content_as_dict.keys())
     top_domains = [[], [], []]
+    domain_names = list()
     for inner_dict in content_as_dict.values():
         sorted_tuples = sorted(inner_dict.items(), key=lambda item: item[1])
         print(sorted_tuples)
@@ -57,7 +59,11 @@ def plot_graph4():
         for index, (key, value) in enumerate(inner_dict.items()):
             if index <= 4:
                 top_domains[index].append(inner_dict[key])
-
+                domain_names.append(list(inner_dict.keys()))
+    print("-------------------------")
+    print(top_domains)
+    print(domain_names)
+    print("-------------------------")
     x = np.arange(len(labels))  # the label locations
     width = 0.3  # the width of the bars
     print(content_as_dict)
@@ -70,7 +76,7 @@ def plot_graph4():
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Domain query count')
     ax.set_xlabel('Time of day')
-    ax.set_title('Top 3 domains for different times of the day \n[Note: Hover over the bar to determine domain names]')
+    ax.set_title('Top 3 domains for different times of the day \n[Note: Refer to the Graph4.txt to determine domain names for each hour]')
     ax.set_xticks(x, labels)
     ax.legend()
     # for i in range(3):
@@ -82,27 +88,35 @@ def plot_graph4():
 
 def plot_graph3():
     content_as_dict = json.load(open('Graph3.txt', 'r'))
-
+    content_as_dict = OrderedDict(sorted(content_as_dict.items()))
+    print(content_as_dict)
     labels = list(content_as_dict.keys())
     query_type_counts = [[], [], [], [], []]
 
     for inner_dict in content_as_dict.values():
+        sorted_tuples = sorted(inner_dict.items(), key=lambda item: item[0])
+        inner_dict = {k: v for k, v in sorted_tuples}
         for index, (key, value) in enumerate(inner_dict.items()):
             if index == 0:
                 query_type_counts[index].append(inner_dict[key])
             else:
 
                 query_type_counts[index].append(inner_dict[key])
+
+    print(query_type_counts)
+    val = preprocessing.normalize(query_type_counts, norm='max')
+    print(list(val[0]))
+    query_type_counts = val[0]
     x = np.arange(len(labels))  # the label locations
-    width = 0.2  # the width of the bars
+    width = 0.1  # the width of the bars
 
     fig, ax = plt.subplots()
     rects = []
     rects.append(ax.bar(x - width / 2, query_type_counts[0], width, label='A'))
     rects.append(ax.bar(x + width / 2, query_type_counts[1], width, label='AAAA'))
-    rects.append(ax.bar(x + 1.5 * width, query_type_counts[1], width, label='CNAME'))
-    rects.append(ax.bar(x + 2.5 * width, query_type_counts[1], width, label='PTR'))
-    rects.append(ax.bar(x + 3.5 * width, query_type_counts[1], width, label='NS'))
+    rects.append(ax.bar(x + 1.5 * width, query_type_counts[2], width, label='CNAME'))
+    rects.append(ax.bar(x + 2.5 * width, query_type_counts[3], width, label='NS'))
+    rects.append(ax.bar(x + 3.5 * width, query_type_counts[4], width, label='PTR'))
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Domain query count')
@@ -110,8 +124,8 @@ def plot_graph3():
     ax.set_title('Common 5 query type counts for different times of the day')
     ax.set_xticks(x, labels)
     ax.legend()
-    for i in range(5):
-        ax.bar_label(rects[i], padding=10)
+    # for i in range(5):
+    #     ax.bar_label(rects[i], padding=10)
     fig.autofmt_xdate()
     fig.tight_layout()
     plt.show()
@@ -126,7 +140,7 @@ def autolabel(rects, ax, values):
     return rects
 
 
-# plot_graph1('Graph1.txt', 'DNS Record count', 'Times of day', 'No. of DNS records (normalized)', 'DNS record count (vs) Time of the day')
-#plot_graph2('Graph2.txt', 'Record Count', 'Query Type', 'Query Type Count', 'Query Type (vs) Count')
-# plot_graph3()
+plot_graph1('Graph1.txt', 'DNS Record count', 'Times of day', 'No. of DNS records (normalized)', 'DNS record count (vs) Time of the day')
+plot_graph2('Graph2.txt', 'Record Count', 'Query Type', 'Query Type Count', 'Query Type (vs) Count')
+plot_graph3()
 plot_graph4()
