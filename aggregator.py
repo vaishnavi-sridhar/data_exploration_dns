@@ -48,7 +48,8 @@ def generate_graph2_data(df):
     print(type(sub_df))
     qtype_dict = {}
     for item in sub_df.to_dict('split')['data']:
-        qtype_dict[item[0]] = item[1]
+        key = 'None' if item[0] == '-' else item[0]
+        qtype_dict[key] = item[1]
     print(qtype_dict)
     append_to_file("Graph2.txt", qtype_dict)
 
@@ -96,6 +97,8 @@ def generate_graph4_data(df, input_file):
     content_as_dict = OrderedDict(sorted(content_as_dict.items()))
     print(content_as_dict)
     append_to_file("Graph4.txt", content_as_dict)
+
+
 
 
 def extract_tod(file_name):
