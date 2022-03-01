@@ -13,13 +13,13 @@ This git repository helps understand the DNS logs and get an overall picture bef
 **Plot/Graphs generated:**
 Following graphs are generated to get a holistic view of the DNS data
   
-**  Graph 1.** Number of DNS records (vs) Time of the day
+**Graph 1.**  Number of DNS records (vs) Time of the day
   
-**  Graph 2.** Queried domain names (vs) count - Top 20/50 domains overall
+**Graph 2.**  Queried domain names (vs) count - Top 20/50 domains overall
   
-**  Graph 3.** Query type (vs) count for different times of the day - to understand the distribution of type of DNS traffic
+**Graph 3.**  Query type (vs) count for different times of the day - to understand the distribution of type of DNS traffic
   
-**  Graph 4.**Top 5 domains for different time of the day(in hours)
+**Graph 4.**. Top 5 domains for different time of the day(in hours)
   
 **Project structure:**
 This project consists of 3 python files and need to be run in the same order for users to obtain correct results
