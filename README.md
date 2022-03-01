@@ -26,11 +26,13 @@ This project consists of 3 python files and need to be run in the same order for
   
 **Commands used to run the python scripts**
   
-_  python3 aggregator.py --input_file /home/vasr2545/uncompressed_dns/2021-08-01_dns.00:00:00-01:00:00.log
-  python3 automation.py
-  python3 graph.py_
+  <em>python3 aggregator.py --input_file /home/vasr2545/uncompressed_dns/2021-08-01_dns.00:00:00-01:00:00.log</em>
+  
+  <em>python3 automation.py</em>
+  
+  <em>python3 graph.py</em>
   
   
-Screenshots of testing the code:
+**Screenshots of testing the code:**
   
   
