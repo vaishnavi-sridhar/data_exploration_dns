@@ -13,19 +13,22 @@ This git repository helps understand the DNS logs and get an overall picture bef
 **Plot/Graphs generated:**
 Following graphs are generated to get a holistic view of the DNS data
   
-  1. Number of DNS records (vs) Time of the day
-  2. Queried domain names (vs) count - Top 20/50 domains overall
-  3. Query type (vs) count for different times of the day - to understand the distribution of type of DNS traffic
-  4. Top 5 domains for different time of the day(in hours)
+**  Graph 1.** Number of DNS records (vs) Time of the day
+  
+**  Graph 2.** Queried domain names (vs) count - Top 20/50 domains overall
+  
+**  Graph 3.** Query type (vs) count for different times of the day - to understand the distribution of type of DNS traffic
+  
+**  Graph 4.**Top 5 domains for different time of the day(in hours)
   
 **Project structure:**
 This project consists of 3 python files and need to be run in the same order for users to obtain correct results
   
-  Graph 1. aggregator.py : Takes a single I/P file location as input parameter and generates data as dictionary required for plotting the graphs and save to corresponding text files 
+1. aggregator.py : Takes a single I/P file location as input parameter and generates data as dictionary required for plotting the graphs and save to corresponding text files 
   
-  Graph 2. graph.py : Used to plot graphs
+2. graph.py : Used to plot graphs
   
-  Graph 3. automation.py: Used for recursively running aggregator.py for multiple DNS log files at once. (Files should be in the current working directory and end with '.log')
+3. automation.py: Used for recursively running aggregator.py for multiple DNS log files at once. (Files should be in the current working directory and end with '.log')
   
 **Commands used to run the python scripts**
   
