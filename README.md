@@ -15,7 +15,7 @@ Following graphs are generated to get a holistic view of the DNS data
   
 **Graph 1.**  Number of DNS records (vs) Time of the day
   
-**Graph 2.**  Queried domain names (vs) count - Top 20/50 domains overall
+**Graph 2.**  Query types (vs) count 
   
 **Graph 3.**  Query type (vs) count for different times of the day - to understand the distribution of type of DNS traffic
   
