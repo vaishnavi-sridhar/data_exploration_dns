@@ -32,6 +32,8 @@ This project consists of 3 python files and need to be run in the same order for
   
   <em>python3 graph.py</em>
   
+**Testing caveats:** 
+  The python scripts automation & aggregator were tested with actual CU DNS log files on class server due to the DNS data movement restrictions, whereas the script graph was tested on local with the generated text files , due to the lack of matplotlib python module on class server.
   
 **Screenshots of testing the code:**
   
