@@ -20,9 +20,12 @@ Following graphs are generated to get a holistic view of the DNS data
   
 **Project structure:**
 This project consists of 3 python files and need to be run in the same order for users to obtain correct results
-  1. aggregator.py : Takes a single I/P file location as input parameter and generates data as dictionary required for plotting the graphs and save to corresponding text files 
-  2. graph.py : Used to plot graphs
-  3. automation.py: Used for recursively running aggregator.py for multiple DNS log files at once. (Files should be in the current working directory and end with '.log')
+  
+  Graph 1. aggregator.py : Takes a single I/P file location as input parameter and generates data as dictionary required for plotting the graphs and save to corresponding text files 
+  
+  Graph 2. graph.py : Used to plot graphs
+  
+  Graph 3. automation.py: Used for recursively running aggregator.py for multiple DNS log files at once. (Files should be in the current working directory and end with '.log')
   
 **Commands used to run the python scripts**
   
